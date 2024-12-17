@@ -181,10 +181,11 @@ const NetworkPage: React.FC = () => {
     const height = svgElement.clientHeight;
 
     const svg = d3
-      .select(svgElement)
-      .attr('viewBox', `0 0 ${width} ${height}`)
-      .attr('width', '100%')
-      .attr('height', '100%');
+    .select(svgElement)
+    .attr('viewBox', `0 0 ${width} ${height}`)
+    .attr('width', '100%')
+    .attr('height', '100%')
+    .style('min-height', '800px'); // Add minimum height
 
     // Add zoom behavior
     const zoom = d3
@@ -214,20 +215,20 @@ const NetworkPage: React.FC = () => {
 
       simulationRef.current = d3
       .forceSimulation<ForceNode>()
-      .nodes(data.nodes as ForceNode[])
-      .force(
-        'link',
-        d3
-          .forceLink<ForceNode, ForceLink>(data.links as ForceLink[])
-          .id((d) => d.id)
-          .distance(100)
-      )
-      .force('charge', d3.forceManyBody<ForceNode>().strength(-800))
-      .force('center', d3.forceCenter<ForceNode>(width / 2, height / 2))
-      .force(
-        'collision',
-        d3.forceCollide<ForceNode>().radius((d) => Math.sqrt(d.messageCount) * 2 + 30)
-      );
+  .nodes(data.nodes as ForceNode[])
+  .force(
+    'link',
+    d3
+      .forceLink<ForceNode, ForceLink>(data.links as ForceLink[])
+      .id((d) => d.id)
+      .distance(200)  // Increased from 100 to 200
+  )
+  .force('charge', d3.forceManyBody<ForceNode>().strength(-1500))  // Increased repulsion
+  .force('center', d3.forceCenter<ForceNode>(width / 2, height / 2))
+  .force(
+    'collision',
+    d3.forceCollide<ForceNode>().radius((d) => Math.sqrt(d.messageCount) * 3 + 40)  // Increased radius
+  );
   
 
     // Create links with labels
@@ -308,35 +309,32 @@ const NetworkPage: React.FC = () => {
           .on('end', dragended as any)
       );
     nodes
-      .append('circle')
-      .attr('r', (d: any) => Math.sqrt(d.messageCount) * 2 + 20)
-      .attr('fill', '#D8382B')
-      .attr('opacity', 0.8)
-      .attr('stroke', '#fff')
-      .attr('stroke-width', 1.5)
-      .attr('cursor', 'pointer')
-      .transition()
-      .duration(500)
-      .attr('r', (d: any) => Math.sqrt(d.messageCount) * 2 + 20);
+    .append('circle')
+    .attr('r', (d: ForceNode) => Math.sqrt(d.messageCount) * 3 + 30)  // Increased base size
+    .attr('fill', '#D8382B')
+    .attr('opacity', 0.8)
+    .attr('stroke', '#fff')
+    .attr('stroke-width', 2)  // Increased stroke width
+    .attr('cursor', 'pointer')
+    .transition()
+    .duration(500)
+    .attr('r', (d: ForceNode) => Math.sqrt(d.messageCount) * 3 + 30);
 
     nodes
-      .append('clipPath')
-      .attr('id', (d: any) => `clip-${d.id}`)
-      .append('circle')
-      .attr('r', (d: any) => Math.sqrt(d.messageCount) * 2 + 15);
+  .append('clipPath')
+  .attr('id', (d: ForceNode) => `clip-${d.id}`)
+  .append('circle')
+  .attr('r', (d: ForceNode) => Math.sqrt(d.messageCount) * 3 + 25);
 
-    nodes
-      .append('image')
-      .attr('href', (d: any) => d.avatar || '/default-avatar.png') // Use default avatar if not provided
-      .attr('x', (d: any) => -Math.sqrt(d.messageCount) * 2 - 15)
-      .attr('y', (d: any) => -Math.sqrt(d.messageCount) * 2 - 15)
-      .attr('width', (d: any) => (Math.sqrt(d.messageCount) * 2 + 15) * 2)
-      .attr('height', (d: any) => (Math.sqrt(d.messageCount) * 2 + 15) * 2)
-      .attr('clip-path', (d: any) => `url(#clip-${d.id})`)
-      .attr('preserveAspectRatio', 'xMidYMid slice')
-      .on('error', function () {
-        d3.select(this).attr('href', '/default-avatar.png'); // Fallback to default on error
-      });
+nodes
+  .append('image')
+  .attr('href', (d: ForceNode) => d.avatar || '/default-avatar.png')
+  .attr('x', (d: ForceNode) => -Math.sqrt(d.messageCount) * 3 - 25)
+  .attr('y', (d: ForceNode) => -Math.sqrt(d.messageCount) * 3 - 25)
+  .attr('width', (d: ForceNode) => (Math.sqrt(d.messageCount) * 3 + 25) * 2)
+  .attr('height', (d: ForceNode) => (Math.sqrt(d.messageCount) * 3 + 25) * 2)
+  .attr('clip-path', (d: ForceNode) => `url(#clip-${d.id})`)
+  .attr('preserveAspectRatio', 'xMidYMid slice');
 
     nodes
       .on('mouseover', (event: any, d: any) => {
@@ -527,7 +525,7 @@ const NetworkPage: React.FC = () => {
           )}
 
           {/* Visualization Container */}
-          <div className="flex-grow w-full h-full bg-dark/50 border border-white/10 rounded-lg">
+          <div className="flex-grow w-full h-[800px] bg-dark/50 border border-white/10 rounded-lg">
             <svg ref={svgRef} className="w-full h-full" />
             <div
               ref={tooltipRef}

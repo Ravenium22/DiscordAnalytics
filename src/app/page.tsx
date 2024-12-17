@@ -181,26 +181,6 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* Footer */}
-      <footer className="bg-dark text-secondary/80 py-6 text-center border-t border-secondary/5 font-outfit">
-        <p>
-          Made by{' '}
-          <a
-            href="https://x.com/RaveniumNFT"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:underline"
-          >
-            Ravenium
-          </a>
-        </p>
-        <p className="mt-1">
-          X: <a href="https://x.com/RaveniumNFT" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">RaveniumNFT</a>
-          {' | '}
-          Discord: <a href="https://discord.com/users/ravenium22" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">ravenium22</a>
-        </p>
-      </footer>
     </div>
   );
 };
