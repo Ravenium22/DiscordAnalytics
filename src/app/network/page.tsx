@@ -37,11 +37,18 @@ interface NetworkData {
   links: Link[];
 }
 
+interface DragSubject extends ForceNode {
+  x: number;
+  y: number;
+}
+
 
 type LayoutType = 'force' | 'galaxy' | 'grid' | 'circular';
 type ForceNode = d3.SimulationNodeDatum & Node;
 type ForceLink = d3.SimulationLinkDatum<ForceNode>;
 type NetworkSimulation = d3.Simulation<ForceNode, ForceLink>;
+type D3DragEvent = d3.D3DragEvent<SVGGElement, ForceNode, ForceNode>;
+
 
 const NetworkPage: React.FC = () => {
   const router = useRouter();
@@ -205,21 +212,23 @@ const NetworkPage: React.FC = () => {
       .domain([1, d3.max(data.links, (d) => d.value) || 1])
       .interpolator(d3.interpolateViridis);
 
-    simulationRef.current = d3
-      .forceSimulation(data.nodes as d3.SimulationNodeDatum[])
+      simulationRef.current = d3
+      .forceSimulation<ForceNode>()
+      .nodes(data.nodes as ForceNode[])
       .force(
         'link',
         d3
-          .forceLink(data.links as d3.SimulationLinkDatum<d3.SimulationNodeDatum>[])
-          .id((d: any) => d.id)
+          .forceLink<ForceNode, ForceLink>(data.links as ForceLink[])
+          .id((d) => d.id)
           .distance(100)
       )
-      .force('charge', d3.forceManyBody().strength(-800))
-      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('charge', d3.forceManyBody<ForceNode>().strength(-800))
+      .force('center', d3.forceCenter<ForceNode>(width / 2, height / 2))
       .force(
         'collision',
-        d3.forceCollide().radius((d: any) => Math.sqrt(d.messageCount) * 2 + 30)
+        d3.forceCollide<ForceNode>().radius((d) => Math.sqrt(d.messageCount) * 2 + 30)
       );
+  
 
     // Create links with labels
     const linkGroups = g
@@ -253,38 +262,51 @@ const NetworkPage: React.FC = () => {
         return `${d.value} (${sourceTotal}↔${targetTotal})`;
       });
 
-    const dragstarted = (event: any, d: any) => {
-      if (!event.active) simulationRef.current.alphaTarget(0.3).restart();
-      d.fx = d.x;
-      d.fy = d.y;
-    };
+      const dragstarted = (
+        event: d3.D3DragEvent<SVGGElement, ForceNode, ForceNode>, 
+        d: ForceNode
+      ) => {
+        if (!simulationRef.current) return;
+        if (!(event.sourceEvent as any).active) {
+          simulationRef.current.alphaTarget(0.3).restart();
+        }
+        d.fx = d.x;
+        d.fy = d.y;
+      };
+      
+      const dragged = (
+        event: d3.D3DragEvent<SVGGElement, ForceNode, ForceNode>, 
+        d: ForceNode
+      ) => {
+        d.fx = event.x;
+        d.fy = event.y;
+      };
+      
+      const dragended = (
+        event: d3.D3DragEvent<SVGGElement, ForceNode, ForceNode>, 
+        d: ForceNode
+      ) => {
+        if (!simulationRef.current) return;
+        if (!(event.sourceEvent as any).active) {
+          simulationRef.current.alphaTarget(0);
+        }
+        if (!isPinModeEnabled) {
+          d.fx = null;
+          d.fy = null;
+        }
+      };
 
-    const dragged = (event: any, d: any) => {
-      d.fx = event.x;
-      d.fy = event.y;
-    };
-
-    const dragended = (event: any, d: any) => {
-      if (!event.active) simulationRef.current.alphaTarget(0);
-      if (!isPinModeEnabled) {
-        d.fx = null;
-        d.fy = null;
-      }
-    };
-
-    const nodes = g
+      const nodes = g
       .append('g')
-      .selectAll('g')
-      .data(data.nodes)
+      .selectAll<SVGGElement, ForceNode>('g')
+      .data(data.nodes as ForceNode[])
       .join('g')
       .call(
-        d3
-          .drag<SVGGElement, d3.SimulationNodeDatum>()
-          .on('start', dragstarted)
-          .on('drag', dragged)
-          .on('end', dragended)
+        d3.drag<SVGGElement, ForceNode>()
+          .on('start', dragstarted as any)
+          .on('drag', dragged as any)
+          .on('end', dragended as any)
       );
-
     nodes
       .append('circle')
       .attr('r', (d: any) => Math.sqrt(d.messageCount) * 2 + 20)
