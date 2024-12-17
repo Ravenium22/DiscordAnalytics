@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { ArrowLeft, MessageCircle, SmilePlus } from 'lucide-react';
 import UserAvatar from '@/components/ui/UserAvatar';
 import StatCard from '@/components/ui/StatCard';
@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-} from '@/components/ui/Card';
+} from '@/components/ui/card';
 
 interface UserStats {
   totalMessages: number;
