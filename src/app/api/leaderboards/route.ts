@@ -43,25 +43,29 @@ export async function GET() {
   try {
     // Get top message users
     const { data: topMessages, error: messagesError } = await supabase
-      .rpc<MessageCount, LimitParams>('get_message_counts', { limit_num: 10 });
+      .rpc('get_message_counts', { limit_num: 10 })
+      .returns<MessageCount[]>();
 
     if (messagesError) throw new Error(`Failed to fetch top messages: ${messagesError.message}`);
 
     // Get top Gramen users
     const { data: topGramen, error: gramenError } = await supabase
-      .rpc<GramenCount, LimitParams>('get_gramen_users', { limit_num: 10 });
+      .rpc('get_gramen_users', { limit_num: 10 })
+      .returns<GramenCount[]>();
 
     if (gramenError) throw new Error(`Failed to fetch top Gramen users: ${gramenError.message}`);
 
     // Get top reply users
     const { data: topReplies, error: repliesError } = await supabase
-      .rpc<ReplyCount, LimitParams>('get_reply_counts', { limit_num: 10 });
+      .rpc('get_reply_counts', { limit_num: 10 })
+      .returns<ReplyCount[]>();
 
     if (repliesError) throw new Error(`Failed to fetch top replies: ${repliesError.message}`);
 
     // Get top emoji users
     const { data: topEmojis, error: emojisError } = await supabase
-      .rpc<EmojiCount, LimitParams>('get_emoji_users', { limit_num: 10 });
+      .rpc('get_emoji_users', { limit_num: 10 })
+      .returns<EmojiCount[]>();
 
     if (emojisError) throw new Error(`Failed to fetch top emoji users: ${emojisError.message}`);
 
