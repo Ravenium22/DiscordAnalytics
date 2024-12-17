@@ -37,7 +37,9 @@ interface NetworkData {
   links: Link[];
 }
 
+
 type LayoutType = 'force' | 'galaxy' | 'grid' | 'circular';
+type NetworkSimulation = d3.Simulation<d3.SimulationNodeDatum, d3.SimulationLinkDatum<d3.SimulationNodeDatum>>;
 
 const NetworkPage: React.FC = () => {
   const router = useRouter();
@@ -49,7 +51,7 @@ const NetworkPage: React.FC = () => {
   const [layoutType, setLayoutType] = useState<LayoutType>('force');
   const svgRef = useRef<SVGSVGElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
-  const simulationRef = useRef<
+  const simulationRef = useRef<NetworkSimulation | null>(null);
     d3.Simulation<d3.SimulationNodeDatum, d3.SimulationLinkDatum<any>>
   >(null);
 
