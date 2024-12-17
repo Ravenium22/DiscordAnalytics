@@ -39,7 +39,9 @@ interface NetworkData {
 
 
 type LayoutType = 'force' | 'galaxy' | 'grid' | 'circular';
-type NetworkSimulation = d3.Simulation<d3.SimulationNodeDatum, d3.SimulationLinkDatum<d3.SimulationNodeDatum>>;
+type ForceNode = d3.SimulationNodeDatum & Node;
+type ForceLink = d3.SimulationLinkDatum<ForceNode>;
+type NetworkSimulation = d3.Simulation<ForceNode, ForceLink>;
 
 const NetworkPage: React.FC = () => {
   const router = useRouter();
@@ -52,8 +54,6 @@ const NetworkPage: React.FC = () => {
   const svgRef = useRef<SVGSVGElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const simulationRef = useRef<NetworkSimulation | null>(null);
-    d3.Simulation<d3.SimulationNodeDatum, d3.SimulationLinkDatum<any>>
-  >(null);
 
   // Debounced fetch to optimize performance
   const debouncedFetch = useCallback(
