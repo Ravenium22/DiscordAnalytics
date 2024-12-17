@@ -1,0 +1,249 @@
+/* styles.css */
+/* Font Imports (Make sure you have the font files in your project) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit-Regular.woff2') format('woff2'),
+       url('/fonts/Outfit-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit-SemiBold.woff2') format('woff2'),
+       url('/fonts/Outfit-SemiBold.woff') format('woff');
+  font-weight: 600; /* Semibold */
+  font-style: normal;
+}
+
+/* Tailwind CSS Classes (if you are not using Tailwind, you'll need to define these) */
+.min-h-screen { min-height: 100vh; }
+.bg-dark { background-color: #171717; }
+.bg-card { background-color: #1E1E1E; } /* Example - adjust if needed */
+.text-card-foreground { color: #EADED1; } /* Example - adjust if needed */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.w-full { width: 100%; }
+.max-w-4xl { max-width: 56rem; }
+.max-w-2xl { max-width: 42rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.text-center { text-align: center; }
+.space-y-8 { margin-bottom: 2rem; }
+.text-6xl { font-size: 3.75rem; line-height: 1; }
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+.mb-12 { margin-bottom: 3rem; }
+.gap-4 { gap: 1rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-6 { gap: 1.5rem; }
+.relative { position: relative; }
+.rounded-lg { border-radius: 0.5rem; }
+.border-2 { border-width: 2px; }
+.border { border-width: 1px; }
+.border-primary { border-color: #D8382B; }
+.border-primary\/10 { border-color: rgba(216, 56, 43, 0.1); }
+.border-primary\/30 { border-color: rgba(216, 56, 43, 0.3); }
+.border-accent { border-color: #FCA605; }
+.border-secondary { border-color: #EADED1; }
+.border-secondary\/5 { border-color: rgba(234, 222, 209, 0.05); }
+.border-secondary\/10 { border-color: rgba(234, 222, 209, 0.1); }
+.border-secondary\/20 { border-color: rgba(234, 222, 209, 0.2); }
+.bg-primary { background-color: #D8382B; }
+.bg-primary\/10 { background-color: rgba(216, 56, 43, 0.1); }
+.bg-primary\/90 { background-color: rgba(216, 56, 43, 0.9); }
+.bg-accent { background-color: #FCA605; }
+.bg-accent\/90 { background-color: rgba(252, 166, 5, 0.9); }
+.bg-secondary { background-color: #EADED1; }
+.bg-secondary\/80 { background-color: rgba(234, 222, 209, 0.8); }
+.hover\:bg-primary:hover { background-color: #D8382B; }
+.hover\:bg-primary\/90:hover { background-color: rgba(216, 56, 43, 0.9); }
+.hover\:bg-accent:hover { background-color: #FCA605; }
+.hover\:bg-accent\/90:hover { background-color: rgba(252, 166, 5, 0.9); }
+.text-white { color: #fff; }
+.text-primary { color: #D8382B; }
+.text-accent { color: #FCA605; }
+.text-secondary { color: #EADED1; }
+.text-secondary\/80 { color: rgba(234, 222, 209, 0.8); }
+.text-secondary\/60 { color: rgba(234, 222, 209, 0.6); }
+.text-secondary\/40 { color: rgba(234, 222, 209, 0.4); }
+.placeholder-secondary\/40::placeholder { color: rgba(234, 222, 209, 0.4); }
+.font-outfit { font-family: 'Outfit', sans-serif; }
+.font-outfit-tokyo { font-family: 'Outfit Tokyo', sans-serif; }
+.font-semibold { font-weight: 600; }
+.absolute { position: absolute; }
+.right-2 { right: 0.5rem; }
+.focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
+.focus\:border-primary\/30:focus { border-color: rgba(216, 56, 43, 0.3); }
+.transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+.transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+.duration-200 { transition-duration: 200ms; }
+.hover\:border-primary\/20:hover { border-color: rgba(216, 56, 43, 0.2); }
+.hover\:underline:hover { text-decoration: underline; }
+.mt-4 { margin-top: 1rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-1 { margin-top: 0.25rem; }
+.flex-1 { flex: 1 1 0%; }
+.border-t { border-top-width: 1px; }
+.rounded-full { border-radius: 9999px; }
+.w-10 { width: 2.5rem; }
+.h-10 { height: 2.5rem; }
+.text-base { font-size: 1rem; line-height: 1.5rem; }
+.object-cover { object-fit: cover; }
+.w-4 { width: 1rem; }
+.h-4 { height: 1rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+.space-y-4 { margin-bottom: 1rem; }
+.text-green-500 { color: #34d399; /* Example green - adjust to your preference */}
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.text-center { text-align: center; }
+
+/* Custom classes based on RAMEN FINANCE brand guide */
+.btn-primary {
+  @apply bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-outfit font-semibold transition-all duration-200;
+}
+
+.btn-accent {
+  @apply bg-accent hover:bg-accent/90 text-dark px-6 py-3 rounded-lg font-outfit font-semibold transition-all duration-200;
+}
+
+.btn-secondary {
+  @apply bg-secondary hover:bg-secondary/90 text-dark px-6 py-3 rounded-lg font-outfit font-semibold transition-all duration-200;
+}
+
+.btn-outline {
+  @apply border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-3 rounded-lg font-outfit font-semibold transition-all duration-200;
+}
+
+.btn-ghost {
+  @apply hover:bg-white/10 text-white px-6 py-3 rounded-lg font-outfit font-semibold transition-all duration-200;
+}
+/* Add the missing semicolon at the end of the previous line */
+.bg-dark {
+  background-color: #171717;
+}
+/* Apply Outfit font to the body */
+body {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Add styles for the Card component */
+.card {
+  @apply rounded-lg border bg-card text-card-foreground shadow-sm;
+}
+
+.card-header {
+  @apply flex flex-col space-y-1.5 p-6;
+}
+
+.card-title {
+  @apply text-2xl font-semibold leading-none tracking-tight;
+}
+
+.card-content {
+  @apply p-6 pt-0;
+}
+
+/* Additional styles for the leaderboard card */
+.leaderboard-card {
+  @apply bg-dark/50 border-white/10;
+}
+
+.leaderboard-card-title {
+  @apply text-lg font-medium flex items-center gap-2;
+}
+
+.leaderboard-icon {
+  @apply w-5 h-5 text-primary;
+}
+
+.leaderboard-entry {
+  @apply flex items-center gap-3 bg-dark/30 p-3 rounded-lg border border-white/5 hover:bg-dark/40 transition-colors;
+}
+
+.leaderboard-entry-rank {
+  @apply font-bold text-xl text-primary/80 w-8;
+}
+
+.leaderboard-entry-name {
+  @apply font-medium text-white/90;
+}
+
+.leaderboard-entry-value {
+  @apply text-sm text-white/60;
+}
+
+.user-avatar {
+  @apply rounded-full overflow-hidden bg-dark/50;
+}
+
+.user-avatar-sm {
+  @apply w-8 h-8 text-sm;
+}
+
+.user-avatar-md {
+  @apply w-10 h-10 text-base;
+}
+
+.user-avatar-lg {
+  @apply w-12 h-12 text-lg;
+}
+body, html {
+  margin: 0;
+  padding: 0;
+}
+.tooltip-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.tooltip-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 200ms, transform 200ms;
+}
+
+.tooltip-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tooltip-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 200ms, transform 200ms;
+}
+.loader {
+  border-top-color: #3498db;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  border-top-color: #3490dc; /* Matches 'primary' color */
+  animation: spin 1s ease-in-out infinite;
+}
